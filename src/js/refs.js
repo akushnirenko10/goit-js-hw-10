@@ -5,4 +5,5 @@ export const refs = {
   hoursField: document.querySelector('[data-hours]'),
   minutesField: document.querySelector('[data-minutes]'),
   secondsField: document.querySelector('[data-seconds]'),
+  form: document.querySelector('.form'),
 };
