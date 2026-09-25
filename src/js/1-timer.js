@@ -16,9 +16,6 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-  },
-  onChange(selectedDates, instance) {
     userSelectedDate = false;
     if (Date.now() < selectedDates[0].getTime()) {
       userSelectedDate = selectedDates[0];
@@ -40,18 +37,20 @@ const fp = flatpickr(refs.datetimePicker, options);
 refs.startBtn.addEventListener('click', onStartBtnClick);
 
 function onStartBtnClick() {
+  refs.startBtn.disabled = true;
+  refs.datetimePicker.disabled = true;
+
   TIMER_ID = setInterval(() => {
     const timeDiff = userSelectedDate - Date.now();
 
-    refs.startBtn.disabled = timeDiff > 1000;
-    refs.datetimePicker.disabled = timeDiff > 1000;
-
-    const date = convertMs(timeDiff);
-
-    updateDateFields(date);
+    if (timeDiff > 0) {
+      const date = convertMs(timeDiff);
+      updateDateFields(date);
+    }
 
     if (timeDiff < 1000) {
       clearInterval(TIMER_ID);
+      refs.datetimePicker.disabled = false;
     }
   }, SET_INTERVAL_DELAY);
 }
